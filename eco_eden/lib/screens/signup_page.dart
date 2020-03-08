@@ -1,47 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'signup_page.dart';
 
-class LoginSignupPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
+
   @override
-  State<StatefulWidget> createState() => new _LoginSignupPageState();
+  State<StatefulWidget> createState() => new _RegisterPageState();
+
 }
 
-class _LoginSignupPageState extends State<StatefulWidget> {
+class _RegisterPageState extends State<StatefulWidget> {
 
   final _formKey = new GlobalKey<FormState>();
 
   String _email;
+  String _firstName;
+  String _lastName;
   String _password;
-  bool _isLoading = false; // flag to denote if loading
+  String _confirmPassword;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    print(_isLoading);
     return Scaffold(
       appBar: AppBar(
-        title: Text('EcoEden'),
+        title: Text('Register'),
       ),
+
       body: Stack(
-          children: <Widget>[
-            showForm(),
-            showCircularProgress(),
-          ],
-        ),
-      );
+        children: <Widget>[
+          showForm(),
+        ],
+      ),
+    );
   }
 
-  // Loading indicator
-  Widget showCircularProgress() {
-    if (_isLoading) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    return Container(
-      height: 0.0,
-      width: 0.0,
+  Widget showNameInput() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+      child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                child: TextFormField(
+                  maxLines: 1,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    hintText: 'First Name',
+                    icon: Icon(
+                      Icons.face,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  validator: (value) => value.isEmpty ? 'First Name cant\'t be empty.' : null,
+                  onSaved: (value) => _firstName = value.trim(),
+                ),
+              ),
+
+              Flexible(
+                child: TextFormField(
+                  maxLines: 1,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    hintText: 'Last Name',
+                  ),
+                  validator: (value) => value.isEmpty ? 'Last Name cant\'t be empty.' : null,
+                  onSaved: (value) => _lastName = value.trim(),
+                ),
+              ),
+            ],
+          ),
     );
   }
 
@@ -63,7 +90,7 @@ class _LoginSignupPageState extends State<StatefulWidget> {
 
   Widget showEmailInput() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
@@ -101,6 +128,26 @@ class _LoginSignupPageState extends State<StatefulWidget> {
     );
   }
 
+  Widget showConfirmPasswordInput() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        obscureText: true,
+        autofocus: false,
+        decoration: InputDecoration(
+          hintText: 'Confirm Password',
+          icon: Icon(
+            Icons.lock,
+            color: Colors.grey,
+          ),
+        ),
+        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+        onSaved: (value) => _confirmPassword = value.trim(),
+      ),
+    );
+  }
+
   Widget showPrimaryButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
@@ -114,10 +161,10 @@ class _LoginSignupPageState extends State<StatefulWidget> {
           ),
           color: Colors.blue,
           child: Text(
-            'Log in',
+            'Register',
             style: TextStyle(color: Colors.white, fontSize: 20.0),
           ),
-          onPressed: () => print('i am log in button'),
+          onPressed: () => print('i am Register button'),
         ),
       ),
     );
@@ -126,19 +173,15 @@ class _LoginSignupPageState extends State<StatefulWidget> {
   Widget showSecondaryButton() {
     return FlatButton(
       child: Text(
-        'Create a new account',
+        'Have an account? Sign in.',
         style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
       ),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => RegisterPage()),
-        );
+        Navigator.pop(context);
       },
     );
   }
 
-  // User login form
   Widget showForm() {
     return Container(
       padding: EdgeInsets.all(16.0),
@@ -148,8 +191,10 @@ class _LoginSignupPageState extends State<StatefulWidget> {
           shrinkWrap: true,
           children: <Widget>[
             showLogo(),
+            showNameInput(),
             showEmailInput(),
             showPasswordInput(),
+            showConfirmPasswordInput(),
             showPrimaryButton(),
             showSecondaryButton(),
           ],
@@ -157,5 +202,4 @@ class _LoginSignupPageState extends State<StatefulWidget> {
       ),
     );
   }
-
 }
