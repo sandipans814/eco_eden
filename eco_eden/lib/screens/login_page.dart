@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'signup_page.dart';
+import 'home_page.dart';
 
 class LoginSignupPage extends StatefulWidget {
   @override
@@ -8,13 +9,15 @@ class LoginSignupPage extends StatefulWidget {
 }
 
 class _LoginSignupPageState extends State<StatefulWidget> {
-
   final _formKey = new GlobalKey<FormState>();
 
   String _email;
   String _password;
   bool _isLoading = false; // flag to denote if loading
-
+  String getEmail()
+  {
+    return _email;
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -24,12 +27,12 @@ class _LoginSignupPageState extends State<StatefulWidget> {
         title: Text('EcoEden'),
       ),
       body: Stack(
-          children: <Widget>[
-            showForm(),
-            showCircularProgress(),
-          ],
-        ),
-      );
+        children: <Widget>[
+          showForm(),
+          showCircularProgress(),
+        ],
+      ),
+    );
   }
 
   // Loading indicator
@@ -45,7 +48,6 @@ class _LoginSignupPageState extends State<StatefulWidget> {
     );
   }
 
-
   Widget showLogo() {
     return Hero(
       tag: 'hero',
@@ -59,7 +61,6 @@ class _LoginSignupPageState extends State<StatefulWidget> {
       ),
     );
   }
-
 
   Widget showEmailInput() {
     return Padding(
@@ -108,17 +109,26 @@ class _LoginSignupPageState extends State<StatefulWidget> {
         width: 30.0,
         height: 50.0,
         child: RaisedButton(
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          color: Colors.blue,
-          child: Text(
-            'Log in',
-            style: TextStyle(color: Colors.white, fontSize: 20.0),
-          ),
-          onPressed: () => print('i am log in button'),
-        ),
+            elevation: 5.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            color: Colors.blue,
+            child: Text(
+              'Log in',
+              style: TextStyle(color: Colors.white, fontSize: 20.0),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(
+                    accEmail: 'sandipans814@gmail.com',
+                    accName: 'Sandipan Saha',
+                  ),
+                ),
+              );
+            }),
       ),
     );
   }
@@ -157,5 +167,4 @@ class _LoginSignupPageState extends State<StatefulWidget> {
       ),
     );
   }
-
 }

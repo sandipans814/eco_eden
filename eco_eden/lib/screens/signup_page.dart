@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-
+import 'home_page.dart';
 class RegisterPage extends StatefulWidget {
 
   @override
@@ -164,7 +164,17 @@ class _RegisterPageState extends State<StatefulWidget> {
             'Register',
             style: TextStyle(color: Colors.white, fontSize: 20.0),
           ),
-          onPressed: () => print('i am Register button'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(
+                  accEmail: 'sandipans814@gmail.com',
+                  accName: 'Sandipan Saha',
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
