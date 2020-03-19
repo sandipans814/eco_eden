@@ -6,13 +6,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:search_map_place/search_map_place.dart';
 import 'package:image_picker/image_picker.dart';
 //import 'package:camera/camera.dart';
-//import 'camera_page.dart';
+import 'camera_page.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage(
-      {@required this.accEmail,
-      this.accName}); //email mandat name can be obtained from database;
+  const HomePage({
+    @required this.accEmail,
+    @required  this.accName}); //email mandatory name can be obtained from database;
   final String accEmail;
   final String accName;
 
@@ -104,11 +104,15 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_a_photo),
         onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CameraApp()),
+          );
         },
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-          height: 60.0,
+          height: 40.0,
           color: Color(0xEF4285f4),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -117,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(FontAwesomeIcons.home),
                   onPressed: null),
               IconButton(
-                color: Colors.black,
+//                color: Colors.black,
                 icon: Icon(FontAwesomeIcons.newspaper),
                 onPressed: null,
               ),
