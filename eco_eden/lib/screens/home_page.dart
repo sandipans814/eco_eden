@@ -24,19 +24,33 @@ class _HomePageState extends State<HomePage> {
   GoogleMapController _controller;
   Position position;
   Widget _child;
+  List<Placemark> placemark;
+  String _address;
+  double _lat,_lng;
   @override
   void initState() {
     getCurrentLocation();
     super.initState();
   }
-
+  void getAddress(double latitude,double longitude) async {
+    placemark = await Geolocator().placemarkFromCoordinates(latitude, longitude);
+    _address = placemark[0].name.toString() + ", " +
+        placemark[0].locality.toString() + ", Postal Code:" +
+        placemark[0].postalCode.toString();
+    setState(() {
+      _child = mapWidget();
+    });
+  }
   void getCurrentLocation() async {
     Position res = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
     setState(() {
       position = res;
-      _child = mapWidget();
+      _lat = position.latitude;
+      _lng = position.longitude;
+      //_child = mapWidget();
     });
+    await getAddress(_lat,_lng);
   }
 
   @override
@@ -67,9 +81,9 @@ class _HomePageState extends State<HomePage> {
               accountEmail: Text(widget.accEmail),
               currentAccountPicture: CircleAvatar(
                 backgroundColor:
-                    Theme.of(context).platform == TargetPlatform.iOS
-                        ? Colors.blue
-                        : Colors.white,
+                Theme.of(context).platform == TargetPlatform.iOS
+                    ? Colors.blue
+                    : Colors.white,
                 child: Text(
                   "A",
                   style: TextStyle(fontSize: 40.0),
@@ -101,14 +115,17 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: _child,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add_a_photo),
-        onPressed: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CameraApp()),
-          );
-        },
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50),
+        child: FloatingActionButton(
+          child: Icon(Icons.add_a_photo),
+          onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CameraApp()),
+            );
+          },
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
@@ -138,8 +155,8 @@ class _HomePageState extends State<HomePage> {
         markerId: MarkerId('Home'),
         position: LatLng(position.latitude, position.longitude),
         icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(title: 'Home'),
-      )
+        infoWindow: InfoWindow(title: 'Home' , snippet: _address),
+      ),
     ].toSet();
   }
 
