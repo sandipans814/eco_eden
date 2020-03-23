@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'login_page.dart';
+import 'feeds_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:search_map_place/search_map_place.dart';
@@ -140,7 +141,12 @@ class _HomePageState extends State<HomePage> {
               IconButton(
 //                color: Colors.black,
                 icon: Icon(FontAwesomeIcons.newspaper),
-                onPressed: null,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FeedsPage()),
+                  );
+                },
               ),
             ],
           ),
